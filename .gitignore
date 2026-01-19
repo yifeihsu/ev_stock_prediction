@@ -13,4 +13,4 @@ full_export*.csv
 
 # Optional local-only inputs
 Tax Return*.xlsx
-
+!Tax Return LIPA 2022.xlsx
