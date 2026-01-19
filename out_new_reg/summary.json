@@ -1,0 +1,21 @@
+{
+  "regions": {
+    "LIPA": [
+      "NASSAU",
+      "SUFFOLK"
+    ],
+    "CHGE": [
+      "DUTCHESS",
+      "ULSTER"
+    ]
+  },
+  "counters": {
+    "rows_total": 1198563033,
+    "rows_assigned": 17959925,
+    "rows_skipped_bad_zip": 0,
+    "rows_skipped_no_county": 26172175,
+    "rows_skipped_no_region": 895418023,
+    "rows_skipped_bad_dmv_id": 0
+  },
+  "output": "out_new_reg/new_reg_by_region_snapshot.csv"
+}

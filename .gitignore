@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+.env
+
+# Raw NYSERDA registration dataset (do not commit)
+split_part_*.csv
+split_part_*.zip
+split_part_*.7z
+Vehicle Descriptions.csv
+full_export*.csv
+
+# Optional local-only inputs
+Tax Return*.xlsx
+

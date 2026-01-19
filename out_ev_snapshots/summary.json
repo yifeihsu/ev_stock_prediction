@@ -1,0 +1,32 @@
+{
+  "inputs": [
+    "split_part_1.csv",
+    "split_part_2.csv",
+    "split_part_3.csv",
+    "split_part_4.csv",
+    "split_part_5.csv",
+    "split_part_6.csv",
+    "split_part_7.csv",
+    "split_part_8.csv",
+    "split_part_9.csv"
+  ],
+  "descriptions": "Vehicle Descriptions.csv",
+  "zip_to_county": "data/zip_to_county_ny.csv",
+  "regions": {
+    "LIPA": [
+      "NASSAU",
+      "SUFFOLK"
+    ],
+    "CHGE": [
+      "DUTCHESS",
+      "ULSTER"
+    ]
+  },
+  "counters": {
+    "rows_total": 1198563033,
+    "rows_skipped_no_zip": 0,
+    "rows_skipped_no_county": 26172175,
+    "rows_skipped_no_region": 895418023,
+    "rows_skipped_no_month": 0
+  }
+}

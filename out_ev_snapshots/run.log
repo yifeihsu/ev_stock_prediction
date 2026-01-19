@@ -1,0 +1,260 @@
+Loading VIN drivetrain mapping from: Vehicle Descriptions.csv
+VIN_Key mappings loaded: 1,147,600
+Loading ZIP->County crosswalk: data/zip_to_county_ny.csv
+ZIPs in crosswalk: 1,794
+Regions: {"LIPA": ["NASSAU", "SUFFOLK"], "CHGE": ["DUTCHESS", "ULSTER"]}
+Aggregating across 9 files ...
+Processing file: split_part_1.csv
+  ... 5,000,000 rows processed in split_part_1.csv; total so far: 5,000,000
+  ... 10,000,000 rows processed in split_part_1.csv; total so far: 10,000,000
+  ... 15,000,000 rows processed in split_part_1.csv; total so far: 15,000,000
+  ... 20,000,000 rows processed in split_part_1.csv; total so far: 20,000,000
+  ... 25,000,000 rows processed in split_part_1.csv; total so far: 25,000,000
+  ... 30,000,000 rows processed in split_part_1.csv; total so far: 30,000,000
+  ... 35,000,000 rows processed in split_part_1.csv; total so far: 35,000,000
+  ... 40,000,000 rows processed in split_part_1.csv; total so far: 40,000,000
+  ... 45,000,000 rows processed in split_part_1.csv; total so far: 45,000,000
+  ... 50,000,000 rows processed in split_part_1.csv; total so far: 50,000,000
+  ... 55,000,000 rows processed in split_part_1.csv; total so far: 55,000,000
+  ... 60,000,000 rows processed in split_part_1.csv; total so far: 60,000,000
+  ... 65,000,000 rows processed in split_part_1.csv; total so far: 65,000,000
+  ... 70,000,000 rows processed in split_part_1.csv; total so far: 70,000,000
+  ... 75,000,000 rows processed in split_part_1.csv; total so far: 75,000,000
+  ... 80,000,000 rows processed in split_part_1.csv; total so far: 80,000,000
+  ... 85,000,000 rows processed in split_part_1.csv; total so far: 85,000,000
+  ... 90,000,000 rows processed in split_part_1.csv; total so far: 90,000,000
+  ... 95,000,000 rows processed in split_part_1.csv; total so far: 95,000,000
+  ... 100,000,000 rows processed in split_part_1.csv; total so far: 100,000,000
+  ... 105,000,000 rows processed in split_part_1.csv; total so far: 105,000,000
+  ... 110,000,000 rows processed in split_part_1.csv; total so far: 110,000,000
+  ... 115,000,000 rows processed in split_part_1.csv; total so far: 115,000,000
+  ... 120,000,000 rows processed in split_part_1.csv; total so far: 120,000,000
+  ... 125,000,000 rows processed in split_part_1.csv; total so far: 125,000,000
+  ... 130,000,000 rows processed in split_part_1.csv; total so far: 130,000,000
+Finished file: split_part_1.csv (rows: 133,333,334)
+Processing file: split_part_2.csv
+  ... 5,000,000 rows processed in split_part_2.csv; total so far: 138,333,334
+  ... 10,000,000 rows processed in split_part_2.csv; total so far: 143,333,334
+  ... 15,000,000 rows processed in split_part_2.csv; total so far: 148,333,334
+  ... 20,000,000 rows processed in split_part_2.csv; total so far: 153,333,334
+  ... 25,000,000 rows processed in split_part_2.csv; total so far: 158,333,334
+  ... 30,000,000 rows processed in split_part_2.csv; total so far: 163,333,334
+  ... 35,000,000 rows processed in split_part_2.csv; total so far: 168,333,334
+  ... 40,000,000 rows processed in split_part_2.csv; total so far: 173,333,334
+  ... 45,000,000 rows processed in split_part_2.csv; total so far: 178,333,334
+  ... 50,000,000 rows processed in split_part_2.csv; total so far: 183,333,334
+  ... 55,000,000 rows processed in split_part_2.csv; total so far: 188,333,334
+  ... 60,000,000 rows processed in split_part_2.csv; total so far: 193,333,334
+  ... 65,000,000 rows processed in split_part_2.csv; total so far: 198,333,334
+  ... 70,000,000 rows processed in split_part_2.csv; total so far: 203,333,334
+  ... 75,000,000 rows processed in split_part_2.csv; total so far: 208,333,334
+  ... 80,000,000 rows processed in split_part_2.csv; total so far: 213,333,334
+  ... 85,000,000 rows processed in split_part_2.csv; total so far: 218,333,334
+  ... 90,000,000 rows processed in split_part_2.csv; total so far: 223,333,334
+  ... 95,000,000 rows processed in split_part_2.csv; total so far: 228,333,334
+  ... 100,000,000 rows processed in split_part_2.csv; total so far: 233,333,334
+  ... 105,000,000 rows processed in split_part_2.csv; total so far: 238,333,334
+  ... 110,000,000 rows processed in split_part_2.csv; total so far: 243,333,334
+  ... 115,000,000 rows processed in split_part_2.csv; total so far: 248,333,334
+  ... 120,000,000 rows processed in split_part_2.csv; total so far: 253,333,334
+  ... 125,000,000 rows processed in split_part_2.csv; total so far: 258,333,334
+  ... 130,000,000 rows processed in split_part_2.csv; total so far: 263,333,334
+Finished file: split_part_2.csv (rows: 133,333,334)
+Processing file: split_part_3.csv
+  ... 5,000,000 rows processed in split_part_3.csv; total so far: 271,666,668
+  ... 10,000,000 rows processed in split_part_3.csv; total so far: 276,666,668
+  ... 15,000,000 rows processed in split_part_3.csv; total so far: 281,666,668
+  ... 20,000,000 rows processed in split_part_3.csv; total so far: 286,666,668
+  ... 25,000,000 rows processed in split_part_3.csv; total so far: 291,666,668
+  ... 30,000,000 rows processed in split_part_3.csv; total so far: 296,666,668
+  ... 35,000,000 rows processed in split_part_3.csv; total so far: 301,666,668
+  ... 40,000,000 rows processed in split_part_3.csv; total so far: 306,666,668
+  ... 45,000,000 rows processed in split_part_3.csv; total so far: 311,666,668
+  ... 50,000,000 rows processed in split_part_3.csv; total so far: 316,666,668
+  ... 55,000,000 rows processed in split_part_3.csv; total so far: 321,666,668
+  ... 60,000,000 rows processed in split_part_3.csv; total so far: 326,666,668
+  ... 65,000,000 rows processed in split_part_3.csv; total so far: 331,666,668
+  ... 70,000,000 rows processed in split_part_3.csv; total so far: 336,666,668
+  ... 75,000,000 rows processed in split_part_3.csv; total so far: 341,666,668
+  ... 80,000,000 rows processed in split_part_3.csv; total so far: 346,666,668
+  ... 85,000,000 rows processed in split_part_3.csv; total so far: 351,666,668
+  ... 90,000,000 rows processed in split_part_3.csv; total so far: 356,666,668
+  ... 95,000,000 rows processed in split_part_3.csv; total so far: 361,666,668
+  ... 100,000,000 rows processed in split_part_3.csv; total so far: 366,666,668
+  ... 105,000,000 rows processed in split_part_3.csv; total so far: 371,666,668
+  ... 110,000,000 rows processed in split_part_3.csv; total so far: 376,666,668
+  ... 115,000,000 rows processed in split_part_3.csv; total so far: 381,666,668
+  ... 120,000,000 rows processed in split_part_3.csv; total so far: 386,666,668
+  ... 125,000,000 rows processed in split_part_3.csv; total so far: 391,666,668
+  ... 130,000,000 rows processed in split_part_3.csv; total so far: 396,666,668
+Finished file: split_part_3.csv (rows: 133,333,334)
+Processing file: split_part_4.csv
+  ... 5,000,000 rows processed in split_part_4.csv; total so far: 405,000,002
+  ... 10,000,000 rows processed in split_part_4.csv; total so far: 410,000,002
+  ... 15,000,000 rows processed in split_part_4.csv; total so far: 415,000,002
+  ... 20,000,000 rows processed in split_part_4.csv; total so far: 420,000,002
+  ... 25,000,000 rows processed in split_part_4.csv; total so far: 425,000,002
+  ... 30,000,000 rows processed in split_part_4.csv; total so far: 430,000,002
+  ... 35,000,000 rows processed in split_part_4.csv; total so far: 435,000,002
+  ... 40,000,000 rows processed in split_part_4.csv; total so far: 440,000,002
+  ... 45,000,000 rows processed in split_part_4.csv; total so far: 445,000,002
+  ... 50,000,000 rows processed in split_part_4.csv; total so far: 450,000,002
+  ... 55,000,000 rows processed in split_part_4.csv; total so far: 455,000,002
+  ... 60,000,000 rows processed in split_part_4.csv; total so far: 460,000,002
+  ... 65,000,000 rows processed in split_part_4.csv; total so far: 465,000,002
+  ... 70,000,000 rows processed in split_part_4.csv; total so far: 470,000,002
+  ... 75,000,000 rows processed in split_part_4.csv; total so far: 475,000,002
+  ... 80,000,000 rows processed in split_part_4.csv; total so far: 480,000,002
+  ... 85,000,000 rows processed in split_part_4.csv; total so far: 485,000,002
+  ... 90,000,000 rows processed in split_part_4.csv; total so far: 490,000,002
+  ... 95,000,000 rows processed in split_part_4.csv; total so far: 495,000,002
+  ... 100,000,000 rows processed in split_part_4.csv; total so far: 500,000,002
+  ... 105,000,000 rows processed in split_part_4.csv; total so far: 505,000,002
+  ... 110,000,000 rows processed in split_part_4.csv; total so far: 510,000,002
+  ... 115,000,000 rows processed in split_part_4.csv; total so far: 515,000,002
+  ... 120,000,000 rows processed in split_part_4.csv; total so far: 520,000,002
+  ... 125,000,000 rows processed in split_part_4.csv; total so far: 525,000,002
+  ... 130,000,000 rows processed in split_part_4.csv; total so far: 530,000,002
+Finished file: split_part_4.csv (rows: 133,333,334)
+Processing file: split_part_5.csv
+  ... 5,000,000 rows processed in split_part_5.csv; total so far: 538,333,336
+  ... 10,000,000 rows processed in split_part_5.csv; total so far: 543,333,336
+  ... 15,000,000 rows processed in split_part_5.csv; total so far: 548,333,336
+  ... 20,000,000 rows processed in split_part_5.csv; total so far: 553,333,336
+  ... 25,000,000 rows processed in split_part_5.csv; total so far: 558,333,336
+  ... 30,000,000 rows processed in split_part_5.csv; total so far: 563,333,336
+  ... 35,000,000 rows processed in split_part_5.csv; total so far: 568,333,336
+  ... 40,000,000 rows processed in split_part_5.csv; total so far: 573,333,336
+  ... 45,000,000 rows processed in split_part_5.csv; total so far: 578,333,336
+  ... 50,000,000 rows processed in split_part_5.csv; total so far: 583,333,336
+  ... 55,000,000 rows processed in split_part_5.csv; total so far: 588,333,336
+  ... 60,000,000 rows processed in split_part_5.csv; total so far: 593,333,336
+  ... 65,000,000 rows processed in split_part_5.csv; total so far: 598,333,336
+  ... 70,000,000 rows processed in split_part_5.csv; total so far: 603,333,336
+  ... 75,000,000 rows processed in split_part_5.csv; total so far: 608,333,336
+  ... 80,000,000 rows processed in split_part_5.csv; total so far: 613,333,336
+  ... 85,000,000 rows processed in split_part_5.csv; total so far: 618,333,336
+  ... 90,000,000 rows processed in split_part_5.csv; total so far: 623,333,336
+  ... 95,000,000 rows processed in split_part_5.csv; total so far: 628,333,336
+  ... 100,000,000 rows processed in split_part_5.csv; total so far: 633,333,336
+  ... 105,000,000 rows processed in split_part_5.csv; total so far: 638,333,336
+  ... 110,000,000 rows processed in split_part_5.csv; total so far: 643,333,336
+  ... 115,000,000 rows processed in split_part_5.csv; total so far: 648,333,336
+  ... 120,000,000 rows processed in split_part_5.csv; total so far: 653,333,336
+  ... 125,000,000 rows processed in split_part_5.csv; total so far: 658,333,336
+  ... 130,000,000 rows processed in split_part_5.csv; total so far: 663,333,336
+Finished file: split_part_5.csv (rows: 133,333,334)
+Processing file: split_part_6.csv
+  ... 5,000,000 rows processed in split_part_6.csv; total so far: 671,666,670
+  ... 10,000,000 rows processed in split_part_6.csv; total so far: 676,666,670
+  ... 15,000,000 rows processed in split_part_6.csv; total so far: 681,666,670
+  ... 20,000,000 rows processed in split_part_6.csv; total so far: 686,666,670
+  ... 25,000,000 rows processed in split_part_6.csv; total so far: 691,666,670
+  ... 30,000,000 rows processed in split_part_6.csv; total so far: 696,666,670
+  ... 35,000,000 rows processed in split_part_6.csv; total so far: 701,666,670
+  ... 40,000,000 rows processed in split_part_6.csv; total so far: 706,666,670
+  ... 45,000,000 rows processed in split_part_6.csv; total so far: 711,666,670
+  ... 50,000,000 rows processed in split_part_6.csv; total so far: 716,666,670
+  ... 55,000,000 rows processed in split_part_6.csv; total so far: 721,666,670
+  ... 60,000,000 rows processed in split_part_6.csv; total so far: 726,666,670
+  ... 65,000,000 rows processed in split_part_6.csv; total so far: 731,666,670
+  ... 70,000,000 rows processed in split_part_6.csv; total so far: 736,666,670
+  ... 75,000,000 rows processed in split_part_6.csv; total so far: 741,666,670
+  ... 80,000,000 rows processed in split_part_6.csv; total so far: 746,666,670
+  ... 85,000,000 rows processed in split_part_6.csv; total so far: 751,666,670
+  ... 90,000,000 rows processed in split_part_6.csv; total so far: 756,666,670
+  ... 95,000,000 rows processed in split_part_6.csv; total so far: 761,666,670
+  ... 100,000,000 rows processed in split_part_6.csv; total so far: 766,666,670
+  ... 105,000,000 rows processed in split_part_6.csv; total so far: 771,666,670
+  ... 110,000,000 rows processed in split_part_6.csv; total so far: 776,666,670
+  ... 115,000,000 rows processed in split_part_6.csv; total so far: 781,666,670
+  ... 120,000,000 rows processed in split_part_6.csv; total so far: 786,666,670
+  ... 125,000,000 rows processed in split_part_6.csv; total so far: 791,666,670
+  ... 130,000,000 rows processed in split_part_6.csv; total so far: 796,666,670
+Finished file: split_part_6.csv (rows: 133,333,334)
+Processing file: split_part_7.csv
+  ... 5,000,000 rows processed in split_part_7.csv; total so far: 805,000,004
+  ... 10,000,000 rows processed in split_part_7.csv; total so far: 810,000,004
+  ... 15,000,000 rows processed in split_part_7.csv; total so far: 815,000,004
+  ... 20,000,000 rows processed in split_part_7.csv; total so far: 820,000,004
+  ... 25,000,000 rows processed in split_part_7.csv; total so far: 825,000,004
+  ... 30,000,000 rows processed in split_part_7.csv; total so far: 830,000,004
+  ... 35,000,000 rows processed in split_part_7.csv; total so far: 835,000,004
+  ... 40,000,000 rows processed in split_part_7.csv; total so far: 840,000,004
+  ... 45,000,000 rows processed in split_part_7.csv; total so far: 845,000,004
+  ... 50,000,000 rows processed in split_part_7.csv; total so far: 850,000,004
+  ... 55,000,000 rows processed in split_part_7.csv; total so far: 855,000,004
+  ... 60,000,000 rows processed in split_part_7.csv; total so far: 860,000,004
+  ... 65,000,000 rows processed in split_part_7.csv; total so far: 865,000,004
+  ... 70,000,000 rows processed in split_part_7.csv; total so far: 870,000,004
+  ... 75,000,000 rows processed in split_part_7.csv; total so far: 875,000,004
+  ... 80,000,000 rows processed in split_part_7.csv; total so far: 880,000,004
+  ... 85,000,000 rows processed in split_part_7.csv; total so far: 885,000,004
+  ... 90,000,000 rows processed in split_part_7.csv; total so far: 890,000,004
+  ... 95,000,000 rows processed in split_part_7.csv; total so far: 895,000,004
+  ... 100,000,000 rows processed in split_part_7.csv; total so far: 900,000,004
+  ... 105,000,000 rows processed in split_part_7.csv; total so far: 905,000,004
+  ... 110,000,000 rows processed in split_part_7.csv; total so far: 910,000,004
+  ... 115,000,000 rows processed in split_part_7.csv; total so far: 915,000,004
+  ... 120,000,000 rows processed in split_part_7.csv; total so far: 920,000,004
+  ... 125,000,000 rows processed in split_part_7.csv; total so far: 925,000,004
+  ... 130,000,000 rows processed in split_part_7.csv; total so far: 930,000,004
+Finished file: split_part_7.csv (rows: 133,333,334)
+Processing file: split_part_8.csv
+  ... 5,000,000 rows processed in split_part_8.csv; total so far: 938,333,338
+  ... 10,000,000 rows processed in split_part_8.csv; total so far: 943,333,338
+  ... 15,000,000 rows processed in split_part_8.csv; total so far: 948,333,338
+  ... 20,000,000 rows processed in split_part_8.csv; total so far: 953,333,338
+  ... 25,000,000 rows processed in split_part_8.csv; total so far: 958,333,338
+  ... 30,000,000 rows processed in split_part_8.csv; total so far: 963,333,338
+  ... 35,000,000 rows processed in split_part_8.csv; total so far: 968,333,338
+  ... 40,000,000 rows processed in split_part_8.csv; total so far: 973,333,338
+  ... 45,000,000 rows processed in split_part_8.csv; total so far: 978,333,338
+  ... 50,000,000 rows processed in split_part_8.csv; total so far: 983,333,338
+  ... 55,000,000 rows processed in split_part_8.csv; total so far: 988,333,338
+  ... 60,000,000 rows processed in split_part_8.csv; total so far: 993,333,338
+  ... 65,000,000 rows processed in split_part_8.csv; total so far: 998,333,338
+  ... 70,000,000 rows processed in split_part_8.csv; total so far: 1,003,333,338
+  ... 75,000,000 rows processed in split_part_8.csv; total so far: 1,008,333,338
+  ... 80,000,000 rows processed in split_part_8.csv; total so far: 1,013,333,338
+  ... 85,000,000 rows processed in split_part_8.csv; total so far: 1,018,333,338
+  ... 90,000,000 rows processed in split_part_8.csv; total so far: 1,023,333,338
+  ... 95,000,000 rows processed in split_part_8.csv; total so far: 1,028,333,338
+  ... 100,000,000 rows processed in split_part_8.csv; total so far: 1,033,333,338
+  ... 105,000,000 rows processed in split_part_8.csv; total so far: 1,038,333,338
+  ... 110,000,000 rows processed in split_part_8.csv; total so far: 1,043,333,338
+  ... 115,000,000 rows processed in split_part_8.csv; total so far: 1,048,333,338
+  ... 120,000,000 rows processed in split_part_8.csv; total so far: 1,053,333,338
+  ... 125,000,000 rows processed in split_part_8.csv; total so far: 1,058,333,338
+  ... 130,000,000 rows processed in split_part_8.csv; total so far: 1,063,333,338
+Finished file: split_part_8.csv (rows: 133,333,334)
+Processing file: split_part_9.csv
+  ... 5,000,000 rows processed in split_part_9.csv; total so far: 1,071,666,672
+  ... 10,000,000 rows processed in split_part_9.csv; total so far: 1,076,666,672
+  ... 15,000,000 rows processed in split_part_9.csv; total so far: 1,081,666,672
+  ... 20,000,000 rows processed in split_part_9.csv; total so far: 1,086,666,672
+  ... 25,000,000 rows processed in split_part_9.csv; total so far: 1,091,666,672
+  ... 30,000,000 rows processed in split_part_9.csv; total so far: 1,096,666,672
+  ... 35,000,000 rows processed in split_part_9.csv; total so far: 1,101,666,672
+  ... 40,000,000 rows processed in split_part_9.csv; total so far: 1,106,666,672
+  ... 45,000,000 rows processed in split_part_9.csv; total so far: 1,111,666,672
+  ... 50,000,000 rows processed in split_part_9.csv; total so far: 1,116,666,672
+  ... 55,000,000 rows processed in split_part_9.csv; total so far: 1,121,666,672
+  ... 60,000,000 rows processed in split_part_9.csv; total so far: 1,126,666,672
+  ... 65,000,000 rows processed in split_part_9.csv; total so far: 1,131,666,672
+  ... 70,000,000 rows processed in split_part_9.csv; total so far: 1,136,666,672
+  ... 75,000,000 rows processed in split_part_9.csv; total so far: 1,141,666,672
+  ... 80,000,000 rows processed in split_part_9.csv; total so far: 1,146,666,672
+  ... 85,000,000 rows processed in split_part_9.csv; total so far: 1,151,666,672
+  ... 90,000,000 rows processed in split_part_9.csv; total so far: 1,156,666,672
+  ... 95,000,000 rows processed in split_part_9.csv; total so far: 1,161,666,672
+  ... 100,000,000 rows processed in split_part_9.csv; total so far: 1,166,666,672
+  ... 105,000,000 rows processed in split_part_9.csv; total so far: 1,171,666,672
+  ... 110,000,000 rows processed in split_part_9.csv; total so far: 1,176,666,672
+  ... 115,000,000 rows processed in split_part_9.csv; total so far: 1,181,666,672
+  ... 120,000,000 rows processed in split_part_9.csv; total so far: 1,186,666,672
+  ... 125,000,000 rows processed in split_part_9.csv; total so far: 1,191,666,672
+  ... 130,000,000 rows processed in split_part_9.csv; total so far: 1,196,666,672
+Finished file: split_part_9.csv (rows: 131,896,361)
+Counts written: out_ev_snapshots/counts_by_region_snapshot.csv
+Summary written: out_ev_snapshots/summary.json
