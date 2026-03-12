@@ -14,17 +14,3 @@ full_export*.csv
 # Optional local-only inputs
 Tax Return*.xlsx
 !Tax Return LIPA 2022.xlsx
-CH LIPA Electricity Residential Retail Price.xlsx
-updated_retail_price.xlsx
-
-# Derived local outputs from restricted NYSERDA inputs
-covariates/panel_LIPA_monthly*_mse.csv
-covariates/panel_LIPA_monthly_resampled*.csv
-covariates/retention_*.csv
-models/*_mse.json
-models/*_mse.csv
-models/*_mse.png
-models/*_resampled.json
-models/*_resampled.csv
-models/*_resampled.png
-models/bass_lipa_adopters_forecast_*.png

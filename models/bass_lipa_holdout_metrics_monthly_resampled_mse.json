@@ -1,0 +1,32 @@
+{
+  "holdout_start": "2025-01-01",
+  "n_test_flow": 8,
+  "n_test_stock": 8,
+  "date_min_flow": "2025-01-01",
+  "date_max_flow": "2025-08-01",
+  "date_min_stock": "2025-01-01",
+  "date_max_stock": "2025-08-01",
+  "models": {
+    "baseline": {
+      "rmse_flow": 517.0330587511463,
+      "mape_flow_pct": 20.466849190331025,
+      "poisson_nll_flow": 59.468089072099474,
+      "rmse_stock": 1050.5114593923329,
+      "mape_stock_pct": 1.0853407001053312
+    },
+    "tco_adv": {
+      "rmse_flow": 580.1672998505861,
+      "mape_flow_pct": 23.66358944608577,
+      "poisson_nll_flow": 72.18488044507103,
+      "rmse_stock": 1482.9484799121556,
+      "mape_stock_pct": 1.5037180056143997
+    },
+    "tco_adv_policy": {
+      "rmse_flow": 533.8145253456247,
+      "mape_flow_pct": 21.35934166615534,
+      "poisson_nll_flow": 62.75547500754078,
+      "rmse_stock": 1175.9256667891805,
+      "mape_stock_pct": 1.204673564502283
+    }
+  }
+}
