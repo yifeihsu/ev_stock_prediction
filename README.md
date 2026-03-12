@@ -22,9 +22,15 @@ You must provide the NYSERDA DMV registration dataset locally:
 Optional (for policy eligibility from tax-return aggregates):
 - `Tax Return LIPA 2022.xlsx` (if available to you; otherwise the script falls back to defaults)
 
+Optional (for electricity-price scaling from a local workbook):
+- `CH LIPA Electricity Residential Retail Price.xlsx`
+- `updated_retail_price.xlsx`
+
 ## Quick start (re-run the Bass fit from the precomputed aggregates)
 
-If you only want to reproduce the Bass outputs from the already aggregated inputs in this folder, you can run the fit directly (the folder already includes `covariates/policy_covariates.csv`):
+If you only want to reproduce the Bass outputs from the already aggregated inputs in this folder, you can run the fit directly (the folder already includes `covariates/policy_covariates.csv`).
+
+Note: on-road stock forecasting uses a **retention curve**. If `covariates/retention_LIPA_ev_km.csv` is missing, the script will fall back to `survival=1` (no attrition) and print a warning. For the intended retention-based stock projection, run the “Full rebuild” steps below to estimate the retention curve from the raw splits.
 
 ```bash
 python scripts/build_and_fit_bass_lipa.py \
@@ -32,6 +38,7 @@ python scripts/build_and_fit_bass_lipa.py \
   --holdout-start 2025-01-01 \
   --min-date 2018-01-01 \
   --output-tag monthly2018 \
+  --flow-likelihood poisson \
   --horizon 24
 ```
 
@@ -77,7 +84,17 @@ python scripts/compute_new_reg_by_snapshot.py \
 # 3) Build policy covariates (optional but recommended for the policy scenario)
 python scripts/build_policy_covariates.py
 
-# 4) Fit + holdout validation + forecast (monthly-era snapshots only)
+# 4) Estimate EV retention curve (last-seen VIN spans; takes time)
+python scripts/estimate_ev_retention_curve.py \
+  --inputs-glob "$DATA_DIR/split_part_*.csv" \
+  --descriptions "$DATA_DIR/Vehicle Descriptions.csv" \
+  --zip-to-county data/zip_to_county_ny.csv \
+  --zip-to-region data/utility_zip_regions.csv \
+  --regions "LIPA:NASSAU,SUFFOLK" \
+  --snapshot-map NY_DMV_Snapshots.csv \
+  --output covariates/retention_LIPA_ev_km.csv
+
+# 5) Fit + holdout validation + forecast (monthly-era snapshots only)
 python scripts/build_and_fit_bass_lipa.py \
   --with-policy \
   --holdout-start 2025-01-01 \
@@ -89,6 +106,12 @@ python scripts/build_and_fit_bass_lipa.py \
 ## Notes / interpretation
 
 - `flow_ev_t` is **not** true sales. It is “first-seen VINs in region at a snapshot” (a flow proxy).
-- `stock_ev_t` is “on-road EV stock” (unique VINs present in that snapshot).
-- The Bass model in this package is fit to `flow_ev_t` and uses `stock_ev_t` as the state variable.
+- `adopt_ev_cum_t` is the cumulative sum of `flow_ev_t` (cumulative adopters / ever-arrived).
+- The Bass model is fit to the adoption process: `flow_ev_t` as a function of `adopt_ev_cum_{t-1}`.
+- On-road stock projection uses retention: predicted adoption flows convolved with a retention/survival curve estimated from last-seen VIN spans.
 - Pre-2018 DMV snapshots are irregular/annual; the current model fit focuses on the monthly-era (2018+).
+
+Electricity prices:
+- By default, `scripts/build_and_fit_bass_lipa.py` will use `updated_retail_price.xlsx` if present locally; otherwise it falls back to `CH LIPA Electricity Residential Retail Price.xlsx` if present locally.
+- For the utility-scaled workbook path, the script uses the Residential statewide monthly series and scales it to LIPA using annual LIPA vs NY ratios.
+- Override with `--elec-series` (CSV or XLSX), `--elec-rate-class`, and `--elec-utility` if you want other assumptions.

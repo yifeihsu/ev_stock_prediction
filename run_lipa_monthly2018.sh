@@ -27,6 +27,15 @@ python scripts/compute_new_reg_by_snapshot.py \
   --snapshot-map NY_DMV_Snapshots.csv \
   --output-dir out_new_reg
 
+python scripts/estimate_ev_retention_curve.py \
+  --inputs-glob "${DATA_DIR}/split_part_*.csv" \
+  --descriptions "${DATA_DIR}/Vehicle Descriptions.csv" \
+  --zip-to-county data/zip_to_county_ny.csv \
+  --zip-to-region data/utility_zip_regions.csv \
+  --regions "LIPA:NASSAU,SUFFOLK" \
+  --snapshot-map NY_DMV_Snapshots.csv \
+  --output covariates/retention_LIPA_ev_km.csv
+
 python scripts/build_policy_covariates.py
 
 python scripts/build_and_fit_bass_lipa.py \
@@ -37,4 +46,3 @@ python scripts/build_and_fit_bass_lipa.py \
   --horizon 24
 
 echo "Done. See models/bass_lipa_*_monthly2018.*"
-

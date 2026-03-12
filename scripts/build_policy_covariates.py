@@ -15,8 +15,138 @@ import argparse
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from typing import Dict
 
 ROOT = Path(__file__).resolve().parents[1]
+
+def _month_name_to_num(name: str) -> int | None:
+    s = str(name or "").strip().lower()
+    months = {
+        "january": 1,
+        "february": 2,
+        "march": 3,
+        "april": 4,
+        "may": 5,
+        "june": 6,
+        "july": 7,
+        "august": 8,
+        "september": 9,
+        "october": 10,
+        "november": 11,
+        "december": 12,
+    }
+    return months.get(s)
+
+
+def load_electricity_prices_from_xlsx(
+    xlsx_path: Path, *, rate_class: str, utility: str
+) -> pd.DataFrame:
+    """Load a monthly electricity price series from the provided workbook.
+
+    The workbook contains:
+      - Utility annual average prices (cents/kWh) for LIPA and Central Hudson
+      - A NY statewide monthly table (months x years) in cents/kWh
+
+    Output is a monthly series in $/kWh. If utility is LIPA or CENTRAL_HUDSON,
+    we scale the NY statewide monthly series by annual ratios to approximate
+    utility-level monthly variation.
+    """
+    sheet = rate_class.strip().title()
+    xl = pd.ExcelFile(xlsx_path)
+    if sheet not in xl.sheet_names:
+        raise ValueError(f"Sheet '{sheet}' not found in {xlsx_path}. Available: {xl.sheet_names}")
+    df = xl.parse(sheet)
+    if df.empty:
+        raise ValueError(f"Empty sheet '{sheet}' in {xlsx_path}")
+
+    first_col = df.columns[0]
+
+    # Utility annual averages (rows with numeric years)
+    annual = df[[first_col] + [c for c in df.columns if "Average Price" in str(c)]].copy()
+    annual["year"] = pd.to_numeric(annual[first_col], errors="coerce")
+    annual = annual.dropna(subset=["year"])
+    annual["year"] = annual["year"].astype(int)
+    annual = annual.set_index("year")
+
+    # Statewide monthly table marker
+    header_idx = None
+    for i, v in enumerate(df[first_col].astype(str).tolist()):
+        if "statewide monthly average retail price" in v.strip().lower():
+            header_idx = i
+            break
+    if header_idx is None or header_idx + 2 >= len(df):
+        raise ValueError(f"Could not locate statewide monthly table in {xlsx_path} sheet '{sheet}'")
+
+    years_row = df.iloc[header_idx + 1]
+    col_year: Dict[str, int] = {}
+    for col, val in years_row.items():
+        if col == first_col:
+            continue
+        if isinstance(val, (int, float)) and pd.notna(val):
+            col_year[col] = int(val)
+    if not col_year:
+        raise ValueError(f"Could not parse year headers for statewide monthly table in {xlsx_path}")
+
+    # Collect the first contiguous Jan..Dec block after the header row.
+    month_rows: list[int] = []
+    seen_months: set[int] = set()
+    for i in range(header_idx + 2, len(df)):
+        m = _month_name_to_num(df.at[i, first_col])
+        if m is None:
+            if month_rows and pd.isna(df.at[i, first_col]):
+                continue
+            continue
+        month_rows.append(i)
+        seen_months.add(m)
+        if len(seen_months) >= 12:
+            break
+    if len(seen_months) < 12:
+        raise ValueError(f"Could not parse Jan..Dec monthly block from {xlsx_path} sheet '{sheet}'")
+
+    block = df.loc[month_rows].copy()
+    records: list[dict] = []
+    for _, r in block.iterrows():
+        m = _month_name_to_num(r.get(first_col))
+        if m is None:
+            continue
+        for col, year in col_year.items():
+            v = r.get(col)
+            if pd.isna(v):
+                continue
+            records.append({"date": pd.Timestamp(year=year, month=m, day=1), "cents_per_kwh": float(v)})
+    monthly = pd.DataFrame(records)
+    if monthly.empty:
+        raise ValueError(f"No monthly values parsed from {xlsx_path} sheet '{sheet}'")
+    monthly = monthly.sort_values("date")
+
+    util = utility.strip().upper()
+    if util in ("LIPA", "CENTRAL_HUDSON"):
+        util_col = None
+        for c in annual.columns:
+            lc = str(c).lower()
+            if util == "LIPA" and "lipa" in lc:
+                util_col = c
+                break
+            if util == "CENTRAL_HUDSON" and "central hudson" in lc:
+                util_col = c
+                break
+        if util_col is None:
+            raise ValueError(f"Utility '{utility}' not found in annual average table in {xlsx_path}")
+
+        state_annual = monthly.groupby(monthly["date"].dt.year)["cents_per_kwh"].mean()
+        util_annual = pd.to_numeric(annual[util_col], errors="coerce")
+        ratio = (util_annual / state_annual).replace([np.inf, -np.inf], np.nan).dropna()
+        if ratio.empty:
+            raise ValueError(f"Could not compute utility/state ratio for utility={utility}")
+
+        monthly["year"] = monthly["date"].dt.year
+        monthly["scale"] = monthly["year"].map(ratio).astype(float)
+        monthly["scale"] = monthly["scale"].ffill().bfill()
+        monthly["cents_per_kwh"] = monthly["cents_per_kwh"] * monthly["scale"]
+        monthly = monthly.drop(columns=["year", "scale"])
+
+    monthly["elec_price_t"] = monthly["cents_per_kwh"] / 100.0
+    return monthly[["date", "elec_price_t"]]
 
 def load_gas_prices(gas_series_path: str | None = None):
     if gas_series_path:
@@ -311,6 +441,36 @@ def main():
         help="Optional path to a monthly gas price CSV (date + gas_price_t or gas_price_cents_per_gallon).",
     )
     ap.add_argument(
+        "--elec-series",
+        type=str,
+        default=None,
+        help=(
+            "Optional electricity price source (XLSX or CSV). "
+            "If omitted, prefers 'updated_retail_price.xlsx' if present, otherwise "
+            "falls back to 'CH LIPA Electricity Residential Retail Price.xlsx' (if present)."
+        ),
+    )
+    ap.add_argument(
+        "--elec-rate-class",
+        type=str,
+        default="Residential",
+        choices=["Residential", "Commercial", "Industrial"],
+        help="Which electricity retail price class to use (XLSX sources).",
+    )
+    ap.add_argument(
+        "--elec-utility",
+        type=str,
+        default="LIPA",
+        choices=["LIPA", "CENTRAL_HUDSON", "STATEWIDE"],
+        help="Scale NY statewide electricity prices to a utility (or STATEWIDE for no scaling).",
+    )
+    ap.add_argument(
+        "--elec-price-default",
+        type=float,
+        default=0.22,
+        help="Fallback electricity price ($/kWh) if no series is available.",
+    )
+    ap.add_argument(
         "--msrp-series",
         type=str,
         default=None,
@@ -513,9 +673,50 @@ def main():
         else: return 0.2
     df["fed_policy_index_t"] = df["date"].apply(get_fed_policy_index)
     
+    # Electricity prices for TCO (monthly).
+    elec_df = None
+    if args.elec_series:
+        p = Path(args.elec_series)
+        if not p.is_absolute():
+            p = ROOT / p
+        if not p.exists():
+            raise FileNotFoundError(f"--elec-series not found: {p}")
+        if p.suffix.lower() in (".xlsx", ".xlsm", ".xls"):
+            elec_df = load_electricity_prices_from_xlsx(
+                p, rate_class=args.elec_rate_class, utility=args.elec_utility
+            )
+        else:
+            tmp = pd.read_csv(p)
+            tmp["date"] = pd.to_datetime(tmp["date"])
+            if "elec_price_t" not in tmp.columns:
+                if "elec_price_cents_per_kwh" in tmp.columns:
+                    tmp["elec_price_t"] = tmp["elec_price_cents_per_kwh"].astype(float) / 100.0
+                else:
+                    raise ValueError(
+                        f"{p} must contain elec_price_t ($/kWh) or elec_price_cents_per_kwh"
+                    )
+            elec_df = tmp[["date", "elec_price_t"]].sort_values("date")
+    else:
+        preferred_xlsx = ROOT / "updated_retail_price.xlsx"
+        legacy_xlsx = ROOT / "CH LIPA Electricity Residential Retail Price.xlsx"
+        default_xlsx = preferred_xlsx if preferred_xlsx.exists() else legacy_xlsx
+        if default_xlsx.exists():
+            elec_df = load_electricity_prices_from_xlsx(
+                default_xlsx, rate_class=args.elec_rate_class, utility=args.elec_utility
+            )
+
+    if elec_df is not None and not elec_df.empty:
+        elec_df["date"] = pd.to_datetime(elec_df["date"])
+        elec_df = elec_df.sort_values("date")
+        df = df.sort_values("date")
+        df = pd.merge_asof(df, elec_df, on="date", direction="backward")
+        df["elec_price_t"] = df["elec_price_t"].astype(float).ffill().bfill()
+    else:
+        df["elec_price_t"] = float(args.elec_price_default)
+
     # TCO
-    MPG, KWH_MI, ELEC = 28.0, 0.30, 0.22
-    df["tco_adv_t"] = (df["gas_price_t"]/MPG) - (ELEC*KWH_MI)
+    MPG, KWH_MI = 28.0, 0.30
+    df["tco_adv_t"] = (df["gas_price_t"] / MPG) - (df["elec_price_t"] * KWH_MI)
 
     # Save
     out_path = ROOT / "covariates" / "policy_covariates.csv"
