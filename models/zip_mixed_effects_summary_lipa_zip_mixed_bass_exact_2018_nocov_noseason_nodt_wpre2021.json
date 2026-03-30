@@ -1,0 +1,62 @@
+{
+  "n_rows_total": 736,
+  "n_rows_train": 672,
+  "n_zip": 8,
+  "zip_sample": [
+    "11590",
+    "11704",
+    "11717",
+    "11735",
+    "11743",
+    "11746",
+    "11747",
+    "11757"
+  ],
+  "date_min": "2018-01-01",
+  "date_max": "2025-08-01",
+  "feature_cols": [],
+  "standardization": {
+    "feature_cols": [],
+    "mean": [],
+    "std": []
+  },
+  "config": {
+    "feature_cols": [],
+    "seasonality": false,
+    "resample_monthly": true,
+    "fit_mode": "simulate",
+    "beta_prior_sd": 1.0,
+    "tco_prior_sd": 0.02,
+    "pre_period_cutoff": "2021-01-01",
+    "pre_period_weight": 0.35,
+    "fit_method": "advi",
+    "draws": 200,
+    "tune": 1000,
+    "chains": 2,
+    "target_accept": 0.9,
+    "advi_iters": 2000,
+    "holdout_start": "2025-01-01",
+    "min_date": "2018-01-01",
+    "market_potential_frac": 0.5,
+    "min_total_flow": 10.0,
+    "min_obs": 24,
+    "family": "nb"
+  },
+  "posterior_point": {
+    "alpha_p": -9.197065590882167,
+    "alpha_q": -3.6691978946537067,
+    "beta_p": {},
+    "beta_q": {},
+    "alpha_nb": 7.56420123075808
+  },
+  "market_size": {
+    "n_zip_with_market": 8,
+    "min": 4783.530685628566,
+    "median": 13069.578754632625,
+    "max": 36971.016824519094
+  },
+  "outputs": {
+    "forecast_csv": "/home/yifeihsu/NYSERDA/models/zip_mixed_effects_forecast_lipa_zip_mixed_bass_exact_2018_nocov_noseason_nodt_wpre2021.csv",
+    "posterior_csv": "/home/yifeihsu/NYSERDA/models/zip_mixed_effects_posterior_lipa_zip_mixed_bass_exact_2018_nocov_noseason_nodt_wpre2021.csv"
+  }
+}

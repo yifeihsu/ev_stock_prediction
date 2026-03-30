@@ -1,0 +1,19 @@
+{
+  "pooled_overall": {
+    "n_test_rows": 64,
+    "rmse_flow": 11.868010167479333,
+    "mae_flow": 8.76604290910834,
+    "wape_flow_pct": 22.815239779704502,
+    "poisson_nll_flow": 4.215496642415099,
+    "rmse_stock": 139.3083677297117,
+    "mae_stock": 116.01854813547155,
+    "wape_stock_pct": 10.664694761390008
+  },
+  "independent_weighted_mean": {
+    "rmse_flow": 10.181860893357019,
+    "poisson_nll_flow": 4.014506301639533,
+    "rmse_stock": 173.78028694794537
+  },
+  "flow_rmse_improved_zip_count": 4,
+  "stock_rmse_improved_zip_count": 8
+}

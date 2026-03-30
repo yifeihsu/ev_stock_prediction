@@ -3,4 +3,5 @@ pandas
 scipy
 matplotlib
 openpyxl
-
+pymc
+arviz

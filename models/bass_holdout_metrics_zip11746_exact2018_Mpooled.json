@@ -1,0 +1,15 @@
+{
+  "zip": "11746",
+  "holdout_start": "2025-01-01",
+  "n_test_flow": 7,
+  "n_test_stock": 7,
+  "models": {
+    "baseline": {
+      "rmse_flow": 25.683371448458566,
+      "mape_flow_pct": 33.816212637210455,
+      "poisson_nll_flow": 6.942428789966292,
+      "rmse_stock": 352.238502116386,
+      "mape_stock_pct": 14.003744633983475
+    }
+  }
+}

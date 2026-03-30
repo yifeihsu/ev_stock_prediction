@@ -470,12 +470,12 @@ def main():
     ap.add_argument(
         "--fit-mode",
         type=str,
-        default="one_step",
+        default="simulate",
         choices=["one_step", "simulate"],
         help=(
             "How to fit Bass parameters on the training data. "
             "'one_step' uses observed adoption state A_{t-1}; "
-            "'simulate' fits by forward-simulating A_t, which can reduce exaggerated holdout forecasts."
+            "'simulate' fits by forward-simulating A_t. Default: simulate."
         ),
     )
     ap.add_argument(
@@ -524,6 +524,12 @@ def main():
     ap.add_argument("--horizon", type=int, default=24)
     ap.add_argument("--min-date", type=str, default=None)
     ap.add_argument("--holdout-start", type=str, default=None)
+    ap.add_argument(
+        "--fixed-market-size",
+        type=float,
+        default=None,
+        help="Optional fixed market potential M used by the independent ZIP Bass baseline.",
+    )
     ap.add_argument("--log-every", type=int, default=2_000_000, help="Progress log frequency (lines). 0 disables.")
     ap.add_argument(
         "--output-tag",
@@ -569,7 +575,7 @@ def main():
             log_every=int(args.log_every),
         )
 
-    if args.resample_monthly and not args.reuse_panel:
+    if args.resample_monthly:
         panel = bass.resample_snapshot_panel_to_monthly(panel)
 
     # If we are working with a month-start panel (resampled), drop the final partial month
@@ -620,7 +626,10 @@ def main():
     # Fit models
     if holdout_ts is None:
         bass_params = bass.fit_bass_baseline(
-            panel_fit, flow_likelihood=args.flow_likelihood, fit_mode=args.fit_mode
+            panel_fit,
+            flow_likelihood=args.flow_likelihood,
+            fit_mode=args.fit_mode,
+            M_fixed=float(args.fixed_market_size) if args.fixed_market_size is not None else None,
         )
 
         forecast_df = bass.forecast_fullsample_with_retention(
@@ -726,7 +735,10 @@ def main():
         if train_fit.empty:
             raise ValueError(f"Holdout start {holdout_ts.date()} leaves an empty training set")
         bass_params = bass.fit_bass_baseline(
-            train_fit, flow_likelihood=args.flow_likelihood, fit_mode=args.fit_mode
+            train_fit,
+            flow_likelihood=args.flow_likelihood,
+            fit_mode=args.fit_mode,
+            M_fixed=float(args.fixed_market_size) if args.fixed_market_size is not None else None,
         )
 
         forecast_df = bass.forecast_holdout_with_retention(

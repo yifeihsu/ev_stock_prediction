@@ -1,0 +1,79 @@
+{
+  "holdout_start": "2025-01-01",
+  "overall": {
+    "n_test_rows": 64,
+    "rmse_flow": 11.868010167479333,
+    "mae_flow": 8.76604290910834,
+    "wape_flow_pct": 22.815239779704502,
+    "poisson_nll_flow": 4.215496642415099,
+    "rmse_stock": 139.3083677297117,
+    "mae_stock": 116.01854813547155,
+    "wape_stock_pct": 10.664694761390008
+  },
+  "by_zip": {
+    "11590": {
+      "n_test_rows": 8,
+      "rmse_flow": 12.969740878671006,
+      "wape_flow_pct": 21.17958710876718,
+      "poisson_nll_flow": 4.731449697719897,
+      "rmse_stock": 204.7083482277271,
+      "wape_stock_pct": 17.925938739190695
+    },
+    "11704": {
+      "n_test_rows": 8,
+      "rmse_flow": 5.363917240731878,
+      "wape_flow_pct": 24.53261169748779,
+      "poisson_nll_flow": 3.1532917558930045,
+      "rmse_stock": 55.46206609841259,
+      "wape_stock_pct": 10.335286392364356
+    },
+    "11717": {
+      "n_test_rows": 8,
+      "rmse_flow": 5.67247848620853,
+      "wape_flow_pct": 29.64151177932102,
+      "poisson_nll_flow": 3.451026022883839,
+      "rmse_stock": 42.020476907346605,
+      "wape_stock_pct": 11.924836765518785
+    },
+    "11735": {
+      "n_test_rows": 8,
+      "rmse_flow": 13.607363762140082,
+      "wape_flow_pct": 32.13184237314605,
+      "poisson_nll_flow": 5.834382548880356,
+      "rmse_stock": 82.9068541088152,
+      "wape_stock_pct": 12.194869867300756
+    },
+    "11743": {
+      "n_test_rows": 8,
+      "rmse_flow": 8.544920169144289,
+      "wape_flow_pct": 13.581124215794226,
+      "poisson_nll_flow": 3.559679582422831,
+      "rmse_stock": 158.34764901970274,
+      "wape_stock_pct": 8.845702590162965
+    },
+    "11746": {
+      "n_test_rows": 8,
+      "rmse_flow": 23.259923363213783,
+      "wape_flow_pct": 26.44548216367479,
+      "poisson_nll_flow": 6.279916625162365,
+      "rmse_stock": 257.5941993278021,
+      "wape_stock_pct": 10.05892925400379
+    },
+    "11747": {
+      "n_test_rows": 8,
+      "rmse_flow": 8.573490013446314,
+      "wape_flow_pct": 23.69935051366772,
+      "poisson_nll_flow": 3.690425013471839,
+      "rmse_stock": 81.26574618534444,
+      "wape_stock_pct": 6.971355925673402
+    },
+    "11757": {
+      "n_test_rows": 8,
+      "rmse_flow": 4.992969933402328,
+      "wape_flow_pct": 17.61726266455625,
+      "poisson_nll_flow": 3.0238018928866612,
+      "rmse_stock": 60.007366446988506,
+      "wape_stock_pct": 9.503382674869181
+    }
+  }
+}
