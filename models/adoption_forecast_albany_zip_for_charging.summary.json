@@ -1,0 +1,14 @@
+{
+  "fallback_denominator_rows": 30,
+  "forecast_year_max": 2027,
+  "forecast_year_min": 2018,
+  "home_zcta_count": 36,
+  "invalid_fraction_rows_before_clip": 0,
+  "max_adoption_fraction": 0.06140010894875177,
+  "rows": 1080,
+  "scenarios": [
+    "baseline",
+    "tco",
+    "tco_evse"
+  ]
+}

@@ -1,0 +1,7 @@
+assumption_key,charge_location_type,charger_type,rated_power_kw,peak_demand_hour_probability,managed_eligible_flag
+home_sfh,home,home_l2,7.2,1.00,true
+home_mfh,home,home_l2,7.2,0.50,true
+work,work,work_l2,7.2,0.50,true
+civic,civic,civic_l2,7.2,0.50,false
+long_public,long_public,public_l2,11.2,1.00,false
+quick_public,quick_public,dcfc_150,136.5,0.35,false

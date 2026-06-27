@@ -1,0 +1,393 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\definecolor{evblue}{HTML}{1F4E79}
+\definecolor{evgreen}{HTML}{2E7D32}
+\definecolor{evorange}{HTML}{C55A11}
+\definecolor{evgray}{HTML}{5F6B73}
+\definecolor{evlight}{HTML}{F3F6F8}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{title}{fg=evblue}
+\setbeamercolor{frametitle}{fg=evblue}
+\setbeamercolor{structure}{fg=evblue}
+\setbeamercolor{block title}{fg=white,bg=evblue}
+\setbeamercolor{block body}{fg=black,bg=evlight}
+\setbeamerfont{frametitle}{series=\bfseries}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\newcommand{\kw}{\mathrm{kW}}
+\newcommand{\mw}{\mathrm{MW}}
+\newcommand{\kwh}{\mathrm{kWh}}
+\newcommand{\mwh}{\mathrm{MWh}}
+\newcommand{\gwh}{\mathrm{GWh}}
+\newcommand{\takeaway}[1]{\vspace{0.5em}\textcolor{evblue}{\textbf{Takeaway:}} #1}
+\newcommand{\caveat}[1]{\textcolor{evorange}{\textbf{Caveat:}} #1}
+\newcommand{\maybegraphic}[2][]{%
+  \IfFileExists{#2}{%
+    \includegraphics[#1]{#2}%
+  }{%
+    \setlength{\fboxsep}{1em}%
+    \fbox{%
+      \begin{minipage}[c][0.42\textheight][c]{0.82\linewidth}%
+        \centering
+        \textcolor{evgray}{\textbf{Figure not available}}\\[0.4em]
+        \footnotesize\texttt{\detokenize{#2}}%
+      \end{minipage}%
+    }%
+  }%
+}
+
+\title[Albany EV Charging Results]{Albany County Behavioral EV Charging Results}
+\subtitle{Full dataset run with ZIP/ZCTA adoption scaling and H3-8 charging geography}
+\author{NYSERDA EV Adoption and Charging Model}
+\date{June 16, 2026}
+
+\begin{document}
+
+% -----------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{This week's status}
+\small
+\begin{tabularx}{\linewidth}{p{0.28\linewidth}Y}
+\toprule
+\textbf{Area} & \textbf{Current status} \\
+\midrule
+Model geography & Adoption now scales from home ZIP/ZCTA; charging load is placed at destination H3. \\
+Charging behavior & Allocation now uses conditional expected value instead of simple expected-capacity scaling. \\
+Managed charging & Applied only to charger types marked as managed-eligible in assumptions. \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Remaining trip-chain modeling decision: final stops}
+\small
+\textbf{Final activity distribution for chains that do not end at home}
+
+\vspace{0.4em}
+\begin{tabular}{lr}
+\toprule
+\textbf{Final activity type} & \textbf{Chains} \\
+\midrule
+Social / Recreational & 7,572 \\
+Work & 3,300 \\
+School / Daycare / Religious & 1,620 \\
+Shopping / Errands & 909 \\
+Other & 715 \\
+Transport / drop-off / pick-up & 450 \\
+Meals & 117 \\
+Medical / Dental & 105 \\
+\bottomrule
+\end{tabular}
+
+\begin{itemize}
+  \item \textbf{As observed:} final non-home stops remain non-home overnight stops.
+  \item \textbf{Completed chain:} add a synthetic return-home leg and overnight home dwell.
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Geography design: home adoption vs. physical load}
+\small
+\begin{block}{Core decision}
+Keep home adoption geography separate from charging-load geography.
+\end{block}
+
+\begin{tabularx}{\linewidth}{p{0.26\linewidth}p{0.26\linewidth}Y}
+\toprule
+\textbf{Use case} & \textbf{Target geography} & \textbf{Reason} \\
+\midrule
+EV adoption forecast & Home ZIP/ZCTA & Adoption model is ZIP-level; join from home coordinate to ZIP/ZCTA. \\
+Physical charging load & Destination H3 & Load appears where vehicles charge, not necessarily where they live. \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Charging allocation update}
+\footnotesize
+\setlength{\abovedisplayskip}{0.25em}
+\setlength{\belowdisplayskip}{0.25em}
+\begin{block}{Old risk}
+Expected capacity logic could under- or over-allocate energy when a lower-priority stop had partial capacity and uncertain availability.
+\end{block}
+
+\begin{block}{Current method}
+Carry probability states across ranked charging opportunities:
+\[
+\mathcal{S}_j = \{(p_k, r_k): \text{probability } p_k, \text{ remaining energy } r_k\}
+\]
+At each stop, split every state into available and unavailable branches, allocate:
+\[
+E_{j,k}=\min(r_k, C_j)
+\]
+and aggregate expected event energy:
+\[
+\mathbb{E}[E_j]=\sum_k p_k \cdot q_j \cdot E_{j,k}
+\]
+where $C_j$ is stop capacity and $q_j$ is the GridUp-style charger availability:
+\[
+q_j=\min\left(1,\ q^{\mathrm{peak}}_j\cdot
+\frac{\mathrm{peak\ stopped\ vehicles}}{\mathrm{current\ stopped\ vehicles}}\right).
+\]
+\end{block}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Managed vs. unmanaged charging}
+\footnotesize
+\begin{columns}[T,totalwidth=\linewidth]
+\begin{column}{0.48\linewidth}
+\begin{block}{Unmanaged}
+Charging begins at arrival and uses charger power until allocated energy is delivered or the dwell window closes:
+\[
+T_s = \min\left(\tau_s, \frac{E_s}{P_s}\right)
+\]
+\end{block}
+\end{column}
+\begin{column}{0.48\linewidth}
+\begin{block}{Managed}
+Only managed-eligible charger types are spread across the dwell window:
+\[
+\bar{P}_s = \min\left(P_s, \frac{E_s}{\tau_s}\right)
+\]
+\end{block}
+\end{column}
+\end{columns}
+
+\vspace{0.3em}
+\begin{itemize}
+  \item Managed charging applies to:
+  \begin{itemize}
+    \item home L2: 7.2 kW, managed eligible;
+    \item work L2: 7.2 kW, managed eligible
+    \item civic, long public, and quick public: not managed eligible
+  \end{itemize}
+  \item Availability is now GridUp-style: SFH home L2 has 100\% peak-hour probability, MFH home L2 and work L2 use 50\%, then probabilities rise in lower-demand hours.
+  \item This keeps home/work management separate from public/DCFC charging behavior.
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Adoption scaling logic}
+\small
+\begin{block}{Forecast scaling equation}
+\[
+L_{g,t,c,y} = \sum_h L^{\text{fullEV}}_{h,g,t,c}
+\cdot A_{h,y,s} \cdot G_{h,y,s}
+\]
+\end{block}
+
+\begin{tabularx}{\linewidth}{p{0.16\linewidth}Y}
+\toprule
+\textbf{Symbol} & \textbf{Meaning} \\
+\midrule
+$h$ & Home ZIP/ZCTA used for adoption attribution. \\
+$g$ & Charging H3 cell where load physically appears. \\
+$c$ & Charger category / charging location type. \\
+$A_{h,y,s}$ & Adoption fraction for home geography, year, and scenario. \\
+$G_{h,y,s}$ & Vehicle growth factor for home geography, year, and scenario. \\
+\bottomrule
+\end{tabularx}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Result Summary}
+\small
+\begin{tabular}{p{0.37\linewidth}p{0.52\linewidth}}
+\toprule
+\textbf{Question} & \textbf{Current result} \\
+\midrule
+Full-EV daily energy delivered & 3.305 \(\gwh\) per modeled day under both managed and unmanaged modes. \\
+Full-EV peak load & 287.7 \(\mw\) unmanaged at 20:00; 197.8 \(\mw\) managed at 03:00. \\
+2027 baseline adoption load & 155.0 \(\mwh\) per modeled day; 13.49 \(\mw\) unmanaged peak. \\
+Managed charging effect & 31.3\% lower full-EV peak and 31.3\% lower 2027 baseline peak. \\
+\bottomrule
+\end{tabular}
+
+\takeaway{The model now produces a home-ZCTA by charging-H3 by time load surface, then scales it with the ZIP-level adoption forecast.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Modeling Geography}
+\small
+\begin{columns}[T,totalwidth=\linewidth]
+\begin{column}{0.49\linewidth}
+\textbf{Adoption scaling geography}
+\begin{itemize}
+  \item Adoption forecast is ZIP/ZCTA-level.
+  \item Each modeled vehicle day keeps its home ZCTA.
+  \item Scaling is applied by \texttt{home\_zcta}, forecast year, and adoption scenario.
+\end{itemize}
+\end{column}
+\begin{column}{0.49\linewidth}
+\textbf{Charging-load geography}
+\begin{itemize}
+  \item Charging load is placed at the destination charging location.
+  \item Primary planning geography is H3 at resolution 8.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+% % -----------------------------------------------------------------------------
+% \begin{frame}{Output Tables Produced}
+% \scriptsize
+% \renewcommand{\arraystretch}{1.15}
+% \begin{tabular}{p{0.72\linewidth}r}
+% \toprule
+% \textbf{What the table contains} & \textbf{Rows} \\
+% \midrule
+% Expected charging sessions: timing, energy, charger type, event probability, and home/destination geography. & 1,445,636 \\
+% Vehicle-day energy accounting by managed/unmanaged mode: daily energy need, delivered energy, and unmet energy. & 433,920 \\
+% Pre-adoption load surface by home ZCTA, charging H3, charger type, and 15-minute time bin. & 2,437,544 \\
+% Hourly version of the pre-adoption home-ZCTA by charging-H3 load surface. & 774,262 \\
+% Full-EV charging-H3 load rollups used for spatial peak and profile analysis. & 644,185 / 176,766 \\
+% Destination-point load rollups retained for QA and possible future feeder or transformer joins. & 8,884,374 / 2,479,365 \\
+% Adoption-scaled charging-H3 planning loads across forecast years and adoption scenarios. & 19,325,550 / 5,302,980 \\
+% \bottomrule
+% \end{tabular}
+% \end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Full-EV Energy Accounting}
+\small
+\begin{tabular}{p{0.43\linewidth}r}
+\toprule
+\textbf{Metric} & \textbf{Value per modeled day} \\
+\midrule
+Vehicle days & 216,960 \\
+Total network miles & 8.964 million miles \\
+Mean daily network miles & 41.3 miles per vehicle day \\
+Daily travel energy need & 3.765 \(\gwh\) \\
+Expected charging energy delivered & 3.305 \(\gwh\) \\
+Unmet energy & 0.460 \(\gwh\) \\
+Unmet share of daily travel energy & 12.2\% \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.8em}
+\begin{block}{Interpretation}
+The unmet-energy metric is not a grid load. It is a behavioral feasibility signal showing where the current stop, dwell, charger-access, and power assumptions cannot fully replenish modeled daily travel energy.
+\end{block}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Full-EV Hourly Load Shape}
+\begin{center}
+\maybegraphic[width=0.86\linewidth]{figures/full_ev_hourly_profile.pdf}
+\end{center}
+
+\small
+\takeaway{Managed charging shifts the aggregate peak from 20:00 to 03:00 and reduces the full-EV peak from 287.7 \(\mw\) to 197.8 \(\mw\).}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Charging Energy Is Concentrated at Home}
+\begin{center}
+\maybegraphic[width=0.74\linewidth]{figures/energy_share_2027_baseline.pdf}
+\end{center}
+
+\small
+\takeaway{Home charging accounts for 87.5\% of 2027 baseline daily energy; public, work, and civic charging together account for the remaining 12.5\%.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{2027 Baseline Adoption-Scaled Load}
+\begin{center}
+\maybegraphic[width=0.86\linewidth]{figures/baseline_2027_hourly_profile.pdf}
+\end{center}
+
+\small
+\takeaway{For 2027 baseline adoption, managed charging lowers the county-wide hourly peak from 13.49 \(\mw\) to 9.27 \(\mw\), with the same total daily energy of 155.0 \(\mwh\).}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Adoption-Scaled Energy by Forecast Year}
+\begin{center}
+\maybegraphic[width=0.86\linewidth]{figures/scaled_energy_by_year.pdf}
+\end{center}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Adoption-Scaled Peak by Forecast Year}
+\begin{center}
+\maybegraphic[width=0.86\linewidth]{figures/scaled_peak_by_year.pdf}
+\end{center}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{2027 Baseline H3 Hotspots}
+\small
+\begin{columns}[T,totalwidth=\linewidth]
+\begin{column}{0.49\linewidth}
+\textbf{Unmanaged top H3-hours}
+
+\vspace{0.3em}
+\scriptsize
+\begin{tabular}{lrr}
+\toprule
+\textbf{H3 cell} & \textbf{Hour} & \textbf{\(\kw\)} \\
+\midrule
+882b8902b1fffff & 20 & 162.7 \\
+882b8902b1fffff & 19 & 157.4 \\
+882b890297fffff & 20 & 155.2 \\
+882b890025fffff & 19 & 154.2 \\
+882b8902b1fffff & 21 & 153.3 \\
+\bottomrule
+\end{tabular}
+\end{column}
+\begin{column}{0.49\linewidth}
+\textbf{Managed top H3-hours}
+
+\vspace{0.3em}
+\scriptsize
+\begin{tabular}{lrr}
+\toprule
+\textbf{H3 cell} & \textbf{Hour} & \textbf{\(\kw\)} \\
+\midrule
+882b8902b1fffff & 4 & 108.7 \\
+882b8902b1fffff & 3 & 108.7 \\
+882b8902b1fffff & 2 & 107.0 \\
+882b890297fffff & 3 & 106.5 \\
+882b8902b1fffff & 1 & 106.4 \\
+\bottomrule
+\end{tabular}
+\end{column}
+\end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Current Caveats}
+\small
+\begin{itemize}
+  \item Charger-access and charger-power assumptions are configurable but not yet calibrated against local charger inventory and housing data.
+  \item The adoption forecast in this run covers 2018--2027, so longer-term grid planning requires a longer adoption horizon.
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Next Steps}
+\small
+\begin{enumerate}
+  \item Map charging H3 cells to feeders, substations, or utility service polygons when those layers become available.
+  \item Calibrate charger availability by home type, workplace access, and public EVSE inventory.
+  \item Extend the ZIP/ZCTA adoption forecast beyond 2027 before using the outputs for long-horizon planning.
+  \item Run sensitivity cases for charger access, managed eligibility, DCFC share, and energy efficiency.
+\end{enumerate}
+\end{frame}
+
+\end{document}
